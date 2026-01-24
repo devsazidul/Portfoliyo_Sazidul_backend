@@ -7,3 +7,5 @@ PyYAML
 asgiref
 sqlparse
 python-dotenv
+django-mongodb-backend
+pymongo[srv]
