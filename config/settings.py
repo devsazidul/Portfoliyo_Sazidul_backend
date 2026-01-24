@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l$8#!_kn*zn9og!y86%dex^mkf@6$hd%ruy8jp8uibm=*3#-zj'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['.vercel.app', 'now.sh', 'localhost', '127.0.0.1']
 
@@ -42,6 +47,8 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'api',
 ]
+
+SILENCED_SYSTEM_CHECKS = ["mongodb.E001"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,12 +84,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+host_uri = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/vibrant_showcase')
+print(f"DEBUG: Initializing Database with host: {host_uri[:25]}...")
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django_mongodb_backend',
+        'NAME': 'vibrant_showcase',
+        'CLIENT': {
+            'host': host_uri,
+        }
     }
 }
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/6.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django_mongodb_backend.fields.ObjectIdAutoField'
 
 
 # Password validation
