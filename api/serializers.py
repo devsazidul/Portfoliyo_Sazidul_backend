@@ -8,6 +8,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ['image']
 
 class UserSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     profile = ProfileSerializer(read_only=True)
     
     class Meta:
@@ -15,11 +16,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'first_name', 'last_name', 'profile']
 
 class ProjectSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = Project
         fields = '__all__'
 
 class DocumentSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     fileUrl = serializers.CharField(source='file_url') # Frontend sends camelCase
 
     class Meta:
@@ -27,6 +30,7 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'description', 'type', 'category', 'fileUrl', 'size']
 
 class ContactMessageSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(read_only=True)
     class Meta:
         model = ContactMessage
         fields = '__all__'
