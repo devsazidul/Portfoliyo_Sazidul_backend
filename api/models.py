@@ -10,10 +10,10 @@ class Profile(models.Model):
 
 class Project(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
-    category = models.CharField(max_length=100)
-    image = models.TextField()
-    technologies = models.JSONField(default=list)  # Using JSONField for array compatibility
+    description = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=100, blank=True, null=True)
+    image = models.TextField(blank=True, null=True)
+    technologies = models.JSONField(default=list, blank=True, null=True)
     link = models.CharField(max_length=500, blank=True, null=True)
     github = models.CharField(max_length=500, blank=True, null=True)
     apk_file = models.TextField(blank=True, null=True)
@@ -24,11 +24,11 @@ class Project(models.Model):
 
 class Document(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
-    type = models.CharField(max_length=50) # PDF, DOC, etc.
-    category = models.CharField(max_length=100)
-    file_url = models.TextField() # Changed to TextField to store Base64
-    size = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+    type = models.CharField(max_length=50, blank=True, null=True) # PDF, DOC, etc.
+    category = models.CharField(max_length=100, blank=True, null=True)
+    file_url = models.TextField(blank=True, null=True) # Changed to TextField to store Base64
+    size = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.title
