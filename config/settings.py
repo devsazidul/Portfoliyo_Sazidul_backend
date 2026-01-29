@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-default-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['.vercel.app', 'now.sh', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -91,8 +91,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django_mongodb_backend',
         'NAME': 'vibrant_showcase',
+        'HOST': host_uri,
         'CLIENT': {
-            'host': host_uri,
+            'connectTimeoutMS': 10000,
+            'serverSelectionTimeoutMS': 10000,
         }
     }
 }
@@ -163,12 +165,9 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://0.0.0.0:5173",
-]
+# CORS configuration
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
